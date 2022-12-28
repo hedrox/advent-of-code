@@ -30,8 +30,8 @@ func (h *IntHeap) Pop() interface{} {
 }
 
 func main() {
-	var curr_calories int
-	var total_calories int
+	var currCalories int
+	var totalCalories int
 
 	h := &IntHeap{}
 	heap.Init(h)
@@ -47,11 +47,11 @@ func main() {
 		txt := scanner.Text()
 		// Empty line
 		if len(txt) == 0 {
-			heap.Push(h, curr_calories)
-			curr_calories = 0
+			heap.Push(h, currCalories)
+			currCalories = 0
 		} else {
 			val, _ := strconv.Atoi(txt)
-			curr_calories += val
+			currCalories += val
 		}
 	}
 
@@ -60,15 +60,15 @@ func main() {
 	}
 
 	// There are still some unprocessed calories
-	if curr_calories != 0 {
-		heap.Push(h, curr_calories)
+	if currCalories != 0 {
+		heap.Push(h, currCalories)
 	}
 
-	most_calories := heap.Pop(h).(int)
-	total_calories += most_calories
+	mostCalories := heap.Pop(h).(int)
+	totalCalories += mostCalories
 	for i := 0; i < 2; i++ {
-		total_calories += heap.Pop(h).(int)
+		totalCalories += heap.Pop(h).(int)
 	}
-	fmt.Printf("Most calories carried by an elf: %v\n", most_calories)
-	fmt.Printf("Total number of calories carried by top 3 elfs: %v\n", total_calories)
+	fmt.Printf("Most calories carried by an elf: %v\n", mostCalories)
+	fmt.Printf("Total number of calories carried by top 3 elfs: %v\n", totalCalories)
 }
