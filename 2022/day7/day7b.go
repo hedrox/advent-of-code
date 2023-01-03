@@ -8,9 +8,15 @@ import (
 	"strings"
 )
 
+const (
+	maxAvailableSpace = 70000000
+	updateSpace       = 30000000
+)
+
 var (
-	rootDir    = Directory{name: "/"}
-	currentDir = &rootDir
+	rootDir        = Directory{name: "/"}
+	currentDir     = &rootDir
+	minNeededSpace = 0
 )
 
 type File struct {
@@ -34,15 +40,21 @@ func propagateSizeToRoot(size int) {
 	}
 }
 
-func findSumTotalSize(dir *Directory) int {
-	var totalSize int
-	if dir.totalSize <= 100000 {
-		totalSize += dir.totalSize
+func findDirToDelete(dir *Directory, neededSpace int) {
+	if dir.totalSize >= neededSpace && minNeededSpace > dir.totalSize {
+		minNeededSpace = dir.totalSize
 	}
 	for _, d := range dir.dirs {
-		totalSize += findSumTotalSize(d)
+		findDirToDelete(d, neededSpace)
 	}
-	return totalSize
+	return
+}
+
+func getSmallestDir() {
+	neededSpace := updateSpace - (maxAvailableSpace - rootDir.totalSize)
+	minNeededSpace = rootDir.totalSize
+	currentD := &rootDir
+	findDirToDelete(currentD, neededSpace)
 }
 
 func processInput(str string) {
@@ -100,5 +112,6 @@ func main() {
 	if err := scanner.Err(); err != nil {
 		panic(err)
 	}
-	fmt.Println(findSumTotalSize(&rootDir))
+	getSmallestDir()
+	fmt.Println(minNeededSpace)
 }
