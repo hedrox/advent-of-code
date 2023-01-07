@@ -7,12 +7,12 @@ import (
 	"strconv"
 )
 
-func getScenicScore(treeGrid [][]int, i, j int) int {
-	x := i
+func getScenicScore(treeGrid [][]int, row, col int) int {
+	i := row
 	scenicScoreUp := 0
-	for x > 0 {
-		x--
-		if treeGrid[x][j] < treeGrid[i][j] {
+	for i > 0 {
+		i--
+		if treeGrid[i][col] < treeGrid[row][col] {
 			scenicScoreUp++
 		} else {
 			scenicScoreUp++
@@ -21,10 +21,10 @@ func getScenicScore(treeGrid [][]int, i, j int) int {
 	}
 
 	scenicScoreDown := 0
-	x = i
-	for x < len(treeGrid)-1 {
-		x++
-		if treeGrid[x][j] < treeGrid[i][j] {
+	i = row
+	for i < len(treeGrid)-1 {
+		i++
+		if treeGrid[i][col] < treeGrid[row][col] {
 			scenicScoreDown++
 		} else {
 			scenicScoreDown++
@@ -32,11 +32,11 @@ func getScenicScore(treeGrid [][]int, i, j int) int {
 		}
 	}
 
-	y := j
+	j := col
 	scenicScoreLeft := 0
-	for y > 0 {
-		y--
-		if treeGrid[i][y] < treeGrid[i][j] {
+	for j > 0 {
+		j--
+		if treeGrid[row][j] < treeGrid[row][col] {
 			scenicScoreLeft++
 		} else {
 			scenicScoreLeft++
@@ -45,10 +45,10 @@ func getScenicScore(treeGrid [][]int, i, j int) int {
 	}
 
 	scenicScoreRight := 0
-	y = j
-	for y < len(treeGrid[0])-1 {
-		y++
-		if treeGrid[i][y] < treeGrid[i][j] {
+	j = col
+	for j < len(treeGrid[0])-1 {
+		j++
+		if treeGrid[row][j] < treeGrid[row][col] {
 			scenicScoreRight++
 		} else {
 			scenicScoreRight++

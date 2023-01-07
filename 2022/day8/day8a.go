@@ -7,18 +7,22 @@ import (
 	"strconv"
 )
 
+const (
+	cornerTrees = 4
+)
+
 func treesAtMargin(treeGrid [][]int) int {
 	// We already include all the corner trees in the first multiplication
 	// we subtract them from the second multiplication
-	return (len(treeGrid) * 2) + ((len(treeGrid[0]) * 2) - 4)
+	return (len(treeGrid) * 2) + ((len(treeGrid[0]) * 2) - cornerTrees)
 }
 
-func getVisibleTrees(treeGrid [][]int, i, j int) int {
-	x := i
+func getVisibleTrees(treeGrid [][]int, row, col int) int {
+	i := row
 	iVisible := true
-	for x > 0 {
-		x--
-		if treeGrid[x][j] >= treeGrid[i][j] {
+	for i > 0 {
+		i--
+		if treeGrid[i][col] >= treeGrid[row][col] {
 			iVisible = false
 		}
 	}
@@ -26,10 +30,10 @@ func getVisibleTrees(treeGrid [][]int, i, j int) int {
 		return 1
 	}
 	iVisible = true
-	x = i
-	for x < len(treeGrid)-1 {
-		x++
-		if treeGrid[x][j] >= treeGrid[i][j] {
+	i = row
+	for i < len(treeGrid)-1 {
+		i++
+		if treeGrid[i][col] >= treeGrid[row][col] {
 			iVisible = false
 		}
 	}
@@ -37,11 +41,11 @@ func getVisibleTrees(treeGrid [][]int, i, j int) int {
 		return 1
 	}
 
-	y := j
+	j := col
 	jVisible := true
-	for y > 0 {
-		y--
-		if treeGrid[i][y] >= treeGrid[i][j] {
+	for j > 0 {
+		j--
+		if treeGrid[row][j] >= treeGrid[row][col] {
 			jVisible = false
 		}
 	}
@@ -49,10 +53,10 @@ func getVisibleTrees(treeGrid [][]int, i, j int) int {
 		return 1
 	}
 	jVisible = true
-	y = j
-	for y < len(treeGrid[0])-1 {
-		y++
-		if treeGrid[i][y] >= treeGrid[i][j] {
+	j = col
+	for j < len(treeGrid[0])-1 {
+		j++
+		if treeGrid[row][j] >= treeGrid[row][col] {
 			jVisible = false
 		}
 	}
